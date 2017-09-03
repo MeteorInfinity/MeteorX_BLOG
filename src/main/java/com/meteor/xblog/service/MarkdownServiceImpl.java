@@ -11,9 +11,11 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.parser.ParserEmulationProfile;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 import com.vladsch.flexmark.util.options.MutableDataSet;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@Service
 public class MarkdownServiceImpl implements MarkdownService {
     public void commonMark() {
         Parser parser = Parser.builder().build();

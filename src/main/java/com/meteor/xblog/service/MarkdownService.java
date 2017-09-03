@@ -1,5 +1,8 @@
 package com.meteor.xblog.service;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface MarkdownService {
 
     public void commonMark();
