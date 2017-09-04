@@ -2,16 +2,46 @@ package com.meteor.xblog.service;
 
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @Service
 public class DirctoryService {
+
+    public boolean scanFolder(String path) throws FileNotFoundException, IOException {
+        try {
+
+            File file = new File(path);
+            if (!file.isDirectory()) {
+                System.out.println("文件");
+                System.out.println("path=" + file.getPath());
+                System.out.println("absolutepath=" + file.getAbsolutePath());
+                System.out.println("name=" + file.getName());
+
+            } else if (file.isDirectory()) {
+                System.out.println("文件夹");
+                String[] filelist = file.list();
+                for (int i = 0; i < filelist.length; i++) {
+                    File readfile = new File(path + "\\" + filelist[i]);
+                    if (!readfile.isDirectory()) {
+                        System.out.println("path=" + readfile.getPath());
+                        System.out.println("absolutepath="
+                                + readfile.getAbsolutePath());
+                        System.out.println("name=" + readfile.getName());
+
+                    } else if (readfile.isDirectory()) {
+                        scanFolder(path + "\\" + filelist[i]);
+                    }
+                }
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("readfile()   Exception:" + e.getMessage());
+        }
+        return true;
+    }
 
     public String getCreateTime(String filePath){
         String strTime = null;
