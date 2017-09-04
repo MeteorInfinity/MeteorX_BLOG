@@ -4,43 +4,45 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class DirctoryService {
 
-    public boolean scanFolder(String path) throws FileNotFoundException, IOException {
+    private List<String> filePathList;
+
+    public List<String> scan(String path) throws IOException {
+        filePathList = new ArrayList<String>();
+        scanFolder(path);
+        return filePathList;
+    }
+
+    private void scanFolder(String path) throws FileNotFoundException, IOException {
+
         try {
-
             File file = new File(path);
-            if (!file.isDirectory()) {
-                System.out.println("文件");
-                System.out.println("path=" + file.getPath());
-                System.out.println("absolutepath=" + file.getAbsolutePath());
-                System.out.println("name=" + file.getName());
 
-            } else if (file.isDirectory()) {
-                System.out.println("文件夹");
+            if (!file.isDirectory())
+                filePathList.add(file.getPath());
+            else {
                 String[] filelist = file.list();
+
                 for (int i = 0; i < filelist.length; i++) {
-                    File readfile = new File(path + "\\" + filelist[i]);
-                    if (!readfile.isDirectory()) {
-                        System.out.println("path=" + readfile.getPath());
-                        System.out.println("absolutepath="
-                                + readfile.getAbsolutePath());
-                        System.out.println("name=" + readfile.getName());
+                    File floderFile = new File(path + "\\" + filelist[i]);
 
-                    } else if (readfile.isDirectory()) {
+                    if (!floderFile.isDirectory())
+                        filePathList.add(floderFile.getPath());
+                    else
                         scanFolder(path + "\\" + filelist[i]);
-                    }
-                }
 
+                }
             }
 
         } catch (FileNotFoundException e) {
             System.out.println("readfile()   Exception:" + e.getMessage());
         }
-        return true;
     }
 
     public String getCreateTime(String filePath){
@@ -71,5 +73,32 @@ public class DirctoryService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         cal.setTimeInMillis(time);
         return formatter.format(cal.getTime());
+    }
+
+    public List<String> readFileByLines(String filePath) {
+        File file = new File(filePath);
+        BufferedReader reader = null;
+        List<String> lineList = new ArrayList<String>();
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            int line = 1;
+            while ((tempString = reader.readLine()) != null) {
+                lineList.add(tempString);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+
+        return lineList;
     }
 }

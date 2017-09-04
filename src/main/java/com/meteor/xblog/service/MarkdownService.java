@@ -11,5 +11,5 @@ public interface MarkdownService {
 
     public String multiMarkdown(String markdownStr);
 
-    public void markdown();
+    public String markdown(String markdownStr);
 }
