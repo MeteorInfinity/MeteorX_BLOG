@@ -53,14 +53,14 @@ public class MarkdownServiceImpl implements MarkdownService {
         return renderer.render(document);
     }
 
-    public void markdown() {
+    public String markdown(String markdownStr) {
         MutableDataHolder options = new MutableDataSet();
         options.setFrom(ParserEmulationProfile.MARKDOWN);
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
 
-        Node document = parser.parse("This is *Sparta*");
-        renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
+        Node document = parser.parse(markdownStr);
+        return renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
     }
 }
