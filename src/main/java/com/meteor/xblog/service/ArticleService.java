@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleService{
 
-    public void UpdateArticleMes();
+    public void UpdateArticleMes(String path);
+
+    public void SaveArticleMes(String path);
 
 }

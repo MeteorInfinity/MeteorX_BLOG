@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Article {
     @Id
-    private Integer id;
+    private String id;
     private String fileName;
     private String filePath;
     private String createTime;

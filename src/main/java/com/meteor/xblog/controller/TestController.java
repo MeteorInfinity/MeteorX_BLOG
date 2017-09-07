@@ -1,6 +1,7 @@
 package com.meteor.xblog.controller;
 
 import com.meteor.xblog.entity.Article;
+import com.meteor.xblog.service.ArticleService;
 import com.meteor.xblog.service.FileService;
 import com.meteor.xblog.service.MarkdownService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class TestController {
     private MarkdownService markdownService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private ArticleService articleService;
 
     @RequestMapping("/dir")
     @ResponseBody
@@ -41,6 +44,14 @@ public class TestController {
     @ResponseBody
     public List<Article> testScanFile(){
         String path = System.getProperty("user.dir") + "\\md\\";
+        return fileService.scanFolder(path);
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public List<Article> testSave(){
+        String path = System.getProperty("user.dir") + "\\md\\";
+        articleService.SaveArticleMes(path);
         return fileService.scanFolder(path);
     }
 

@@ -24,17 +24,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private FileService fileService;
 
-    public void UpdateArticleMes(){
-        String path = System.getProperty("user.dir") + "\\md\\";
+    public void UpdateArticleMes(String path){
         List<Article> articleList = fileService.scanFolder(path);
         for (Article article : articleList){
             Query query=new Query(Criteria.where("fileName").is(article.getFileName()));
-            if(mongoTemplate.exists(query, article.getClass()))
+            if(!mongoTemplate.exists(query, article.getClass()))
                 articleRepository.save(article);
             else {
                 Update update = new Update().set("createTime", article.getCreateTime()).set("lastModified", article.getLastModified());
                 mongoTemplate.updateFirst(query, update, article.getClass());
             }
         }
+    }
+
+    public void SaveArticleMes(String path){
+        List<Article> articleList = fileService.scanFolder(path);
+        articleRepository.save(articleList);
     }
 }

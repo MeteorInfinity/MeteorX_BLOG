@@ -14,6 +14,7 @@ public class FloderTimedScan {
 
     @Scheduled(fixedRate = intervalTime)
     public void fixedRateJob(){
-        articleService.UpdateArticleMes();
+        String path = System.getProperty("user.dir") + "\\md\\";
+        articleService.UpdateArticleMes(path);
     }
 }
