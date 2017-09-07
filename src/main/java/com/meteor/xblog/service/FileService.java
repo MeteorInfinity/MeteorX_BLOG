@@ -1,49 +1,20 @@
 package com.meteor.xblog.service;
 
+import com.meteor.xblog.entity.Article;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by Meteor on 2017/9/7.
+ */
+
 @Service
-public class DirctoryService {
-
-    private List<String> filePathList;
-
-    public List<String> scan(String path) throws IOException {
-        filePathList = new ArrayList<String>();
-        scanFolder(path);
-        return filePathList;
-    }
-
-    private void scanFolder(String path) throws FileNotFoundException, IOException {
-
-        try {
-            File file = new File(path);
-
-            if (!file.isDirectory())
-                filePathList.add(file.getPath());
-            else {
-                String[] filelist = file.list();
-
-                for (int i = 0; i < filelist.length; i++) {
-                    File floderFile = new File(path + "\\" + filelist[i]);
-
-                    if (!floderFile.isDirectory())
-                        filePathList.add(floderFile.getPath());
-                    else
-                        scanFolder(path + "\\" + filelist[i]);
-
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("readfile()   Exception:" + e.getMessage());
-        }
-    }
+public class FileService {
 
     public String getCreateTime(String filePath){
         String strTime = null;
@@ -66,13 +37,12 @@ public class DirctoryService {
         return strTime;
     }
 
-    public String getModifiedTime(String filePath){
-        File f = new File(filePath);
+    public Date getModifiedTime(String filePath){
+        File file = new File(filePath);
         Calendar cal = Calendar.getInstance();
-        long time = f.lastModified();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long time = file.lastModified();
         cal.setTimeInMillis(time);
-        return formatter.format(cal.getTime());
+        return cal.getTime();
     }
 
     public List<String> readFileByLines(String filePath) {
@@ -82,8 +52,7 @@ public class DirctoryService {
 
         try {
             reader = new BufferedReader(new FileReader(file));
-            String tempString = null;
-            int line = 1;
+            String tempString;
             while ((tempString = reader.readLine()) != null) {
                 lineList.add(tempString);
             }
@@ -95,10 +64,30 @@ public class DirctoryService {
                 try {
                     reader.close();
                 } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         }
 
         return lineList;
+    }
+
+    public List<Article> scanFolder(String path) {
+        List<Article> articleList = new ArrayList<Article>();
+        File floder = new File(path);
+        String[] fileList = floder.list();
+
+        assert fileList != null;
+        for (String aFileList : fileList) {
+            File file = new File(path + "\\" + aFileList);
+
+            Article article = new Article();
+            article.setFileName(file.getName());
+            article.setFilePath(file.getPath());
+            article.setCreateTime(getCreateTime(path + "\\" + aFileList));
+            article.setLastModified(getModifiedTime(path + "\\" + aFileList));
+            articleList.add(article);
+        }
+        return articleList;
     }
 }
