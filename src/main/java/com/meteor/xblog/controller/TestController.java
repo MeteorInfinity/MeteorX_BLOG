@@ -51,7 +51,15 @@ public class TestController {
     @ResponseBody
     public List<Article> testSave(){
         String path = System.getProperty("user.dir") + "\\md\\";
-        articleService.SaveArticleMes(path);
+        articleService.SaveArticle();
+        return fileService.scanFolder(path);
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public List<Article> testUpdate(){
+        String path = System.getProperty("user.dir") + "\\md\\";
+        articleService.UpdateArticle();
         return fileService.scanFolder(path);
     }
 

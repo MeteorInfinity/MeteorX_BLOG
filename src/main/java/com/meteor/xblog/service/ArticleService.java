@@ -1,6 +1,9 @@
 package com.meteor.xblog.service;
 
+import com.meteor.xblog.entity.Article;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Meteor on 2017/9/7.
@@ -9,8 +12,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleService{
 
-    public void UpdateArticleMes(String path);
+    void UpdateArticle();
 
-    public void SaveArticleMes(String path);
+    void SaveArticle();
+
+    // List<Article> FindByTime();
+
+    Article FindByFileName(String fileName);
+
+    List<Article> FindAll();
 
 }

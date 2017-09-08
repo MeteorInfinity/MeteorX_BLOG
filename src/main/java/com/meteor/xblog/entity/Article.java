@@ -15,6 +15,7 @@ public class Article {
     private String id;
     private String fileName;
     private String filePath;
+    private String digest;
     private String createTime;
     private Date lastModified;
 }
