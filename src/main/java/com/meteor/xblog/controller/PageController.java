@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Controller
 @EnableAutoConfiguration
-public class IndexController {
+public class PageController {
 
     @Autowired
     private MarkdownService markdownService;
@@ -31,12 +32,29 @@ public class IndexController {
     private ArticleService articleService;
 
     @RequestMapping("/")
-    public String IndexArticle(Model model){
+    public String Index(Model model){
         articleService.UpdateArticle();
-        System.out.print("Index\n");
         List<Article> articleList = articleService.FindAll();
         model.addAttribute("articleList", articleList);
         return "index";
+    }
+
+    @RequestMapping("/article")
+    public String Article(Model model, HttpServletRequest request){
+
+        String fileName = request.getParameter("articleName");
+        Article article = articleService.FindByFileName(fileName);
+        List<String> lineList = fileService.readFileByLines(article.getFilePath());
+
+        StringBuilder articleHTML = new StringBuilder();
+        for(String line : lineList) {
+            articleHTML.append(markdownService.multiMarkdown(line)).append("\n");
+        }
+
+        model.addAttribute("article", article);
+        model.addAttribute("articleHTML",articleHTML.toString());
+
+        return "article";
     }
 
 }

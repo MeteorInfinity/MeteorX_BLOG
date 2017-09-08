@@ -104,5 +104,7 @@
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-profile-pegdown:0.26.4" level="project" />
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-util:0.26.4" level="project" />
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-youtrack-converter:0.26.4" level="project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

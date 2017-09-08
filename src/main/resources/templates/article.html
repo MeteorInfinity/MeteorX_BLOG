@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>MO'S BLOG</title>
+    <title th:text="${article.fileName}">没有名字的文章？</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet" />
@@ -23,8 +23,8 @@
 <div class="blog-masthead" th:fragment="nav">
     <div class="container">
         <nav class="blog-nav">
-            <a class="blog-nav-item active" href="#">主页</a>
-            <a class="blog-nav-item" href="#">文章</a>
+            <a class="blog-nav-item" href="#">主页</a>
+            <a class="blog-nav-item active" href="#">文章</a>
             <a class="blog-nav-item" href="#">留言</a>
             <a class="blog-nav-item" href="#">管理</a>
             <a class="blog-nav-item" href="#">关于</a>
@@ -35,25 +35,20 @@
 <div class="container">
 
     <div class="blog-header">
-        <h1 class="blog-title">试图写出一个博客的MO</h1>
-        <p class="lead blog-description">HTML真的好难啊</p>
+        <h2 class="blog-title" th:text="${article.fileName}" style="font-size: 40px;">没有文件名怎么办</h2>
+        <p class="lead blog-description" th:text="${article.createTime}">某年某月与某日</p>
     </div>
 
     <div class="row">
 
         <!--/*@thymesVar id="articleList" type="java.util.List"*/-->
-        <div th:if="${articleList} != NULL" class="col-sm-8 blog-main">
+        <div class="col-sm-8 blog-main">
 
-            <div th:each="article : ${articleList}" class="blog-post">
-                <a th:text="${article.fileName}" th:href="@{'/article?articleName=' + ${article.fileName}}" class="blog-post-title">Unknown Article</a>
-                <p th:text="${article.createTime}" class="blog-post-meta">Unknown Create Time</p>
-                <div th:utext="${article.digest}" class="blog-post-context">
-                    Nothing
-                </div>
+            <div th:utext="${articleHTML}" class="blog-post">
+                兄弟，什么都没有怎么办……
             </div><!-- /.blog-post -->
 
         </div><!-- /.blog-main -->
-
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
 
@@ -62,10 +57,7 @@
                 <p>作为从C语言开始学起编程的弱鸡，我的直男审美已经无药可救了！而且和后端逻辑相比，HTML简直是要杀了我……所以说好想找能帮我写网页，拯救我审美的小姐姐啊……</p>
             </div>
             <div class="sidebar-module">
-                <h4>目录</h4>
-                <ol class="list-unstyled">
-                    <li th:each="article : ${articleList}" ><a th:href="@{'/article?articleName=' + ${article.fileName}}" th:text="${article.fileName}" >...</a></li>
-                </ol>
+                <a th:href="@{/}" style="font-size: 20px;">返回主页</a>
             </div>
             <div class="sidebar-module">
                 <h4>链接</h4>

@@ -113,7 +113,7 @@ public class FileService {
             String tempString;
             int lineNum = 0;
             while ((tempString = reader.readLine()) != null && lineNum <= 4) {
-                fileStr.append(tempString);
+                fileStr.append(markdownService.multiMarkdown(tempString)).append("\n");
                 lineNum++;
             }
             reader.close();
