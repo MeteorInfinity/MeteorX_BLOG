@@ -2,4 +2,4 @@
 ---
 *A Java Blog Website*
 
-with SpringBoot, Markdown and Velocity
+with SpringBoot, Markdown and Thymeleaf
